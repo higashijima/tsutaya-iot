@@ -2,9 +2,9 @@ import argparse
 import subprocess
 from logging import getLogger
 logger = getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logger.basicConfig(level=logger.INFO)
 if os.environ['DEBUG']!='':
-  logging.setLevel(logging.DEBUG)
+  logger.setLevel(logging.DEBUG)
 
 # テキストからwavファイルを作る
     
