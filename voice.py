@@ -10,16 +10,19 @@ if os.environ['DEBUG']!='':
 # テキストからwavファイルを作る
     
 def create_wave(text, path):
+  if isinstance(text, bytes):
+    text = text.decode('utf-8')
+  text = text.encode('utf-8')
+ 
+  # コマンドラインとオプション
   open_jtalk = ['open_jtalk']
   mech = ['-x', '/var/lib/mecab/dic/open-jtalk/naist-jdic']
   htsvoice = ['-m', '/usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice']
   outwav = ['-ow', path]
+
   cmd = open_jtalk + mech + htsvoice + outwav
   logger.debug('command is %s', cmd)
 
-  if isinstance(text, bytes):
-    text = text.decode('utf-8')
- 
   logger.debug('output text:[%s]', text)
   c = subprocess.Popen(cmd, stdin=subprocess.PIPE)
   c.stdin.write(text)
