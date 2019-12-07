@@ -8,7 +8,7 @@ logger = getLogger(__name__)
 def create_wave(text, path):
   open_jtalk = ['open_jtalk']
   mech = ['-x', '/var/lib/mecab/dic/open-jtalk/naist-jdic']
-  htsvoice = ['-m', '/usr/share/hts-voice/mei/mei_normal.htsvoice']
+  htsvoice = ['-m', '/usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice']
   outwav = ['-ow', path]
   cmd = open_jtalk + mech + htsvoice + outwav
   logger.debug('command is %s', cmd)
