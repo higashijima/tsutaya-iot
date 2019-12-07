@@ -1,7 +1,7 @@
 import argparse
 import subprocess
-from logging import getLogger
-logger = getLogger(__name__)
+import logging
+logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 if os.environ['DEBUG']!='':
   logger.setLevel(logging.DEBUG)
