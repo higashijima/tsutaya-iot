@@ -1,11 +1,9 @@
 import argparse
 import subprocess
-import logging
+from logging import getLogger, INFO, DEBUG
+logger = getLogger(__name__)
+logger.setLevel(INFO)
 import os
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
-if os.environ['DEBUG']!='':
-  logger.setLevel(logging.DEBUG)
 
 class voice:
   def __init__(self, enc='utf-8', mechpath='/var/lib/mecab/dic/open-jtalk/naist-jdic', htspath='/usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice'):
