@@ -11,7 +11,7 @@ class unicorn:
     self.font = ImageFont.truetype(font, 7)
     self.cycle = cycle
     hat.rotation(0)
-7
+
   # ディスプレイクリア
   def init_disp(self):
     image = Image.new("RGB", (self.width, self.height), (0, 0, 0))
