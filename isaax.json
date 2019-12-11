@@ -7,6 +7,6 @@
   "language":"python3",
   "license": "",
   "scripts": {
-     "start": "python3 voice.py"
+     "start": "python3 voice_main.py"
   }
 }
