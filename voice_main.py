@@ -15,6 +15,7 @@ MQTT_PORT = int(os.environ.get('MQTT_PORT'))
 MQTT_TOPIC = os.environ.get('MQTT_TOPIC')
 
 files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil'}
+weather = {'A': }
 
 def main():
     # debug mode when environmet set DEBUG 
