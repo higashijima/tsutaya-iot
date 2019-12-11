@@ -1,0 +1,13 @@
+{
+  "name": "tsutaya-iot_unicorn",
+  "version": "0.1",
+  "description": "python - raspberry-pi",
+  "main": "unicorn_main.py",
+  "author": "",
+  "language":"python3",
+  "license": "",
+  "scripts": {
+     "start": "python3 unicorn_main.py"
+  }
+}
+
