@@ -1,5 +1,6 @@
 import argparse
 import subprocess
+from aiy.voice import tts
 from logging import getLogger, INFO, DEBUG
 logger = getLogger(__name__)
 logger.setLevel(INFO)
@@ -34,6 +35,12 @@ class voice:
  
     return path
 
+  def speak_text(self, text):
+    if isinstance(text, bytes):
+      text = text.decode('utf-8')
+    text = text.encode('utf-8')
+    tts.say(text)
+
 # wavファイルの再生
   def play_wave(self, path):
     cmd = ['aplay', path]
@@ -65,7 +72,8 @@ if __name__ == '__main__':
 
   logger.info(text)
 
-  wavfile = '/tmp/voice.wav'
-  v.play_wave(v.create_wave(text, wavfile))
+  v.speak_text(text)
+ # wavfile = '/tmp/voice.wav'
+ # v.play_wave(v.create_wave(text, wavfile))
   
   
