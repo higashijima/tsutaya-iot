@@ -15,7 +15,8 @@ MQTT_PORT = int(os.environ.get('MQTT_PORT'))
 MQTT_TOPIC = os.environ.get('MQTT_TOPIC')
 
 files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil'}
-weather = {'A': }
+countries = {'A': 'US/Eastern', 'B': 'Europe/London', 'C': 'Asia/Kolkata', 'D': 'America/Sao_paulo'}
+# weathers = {'A': }
 
 def main():
     # debug mode when environmet set DEBUG 
@@ -37,7 +38,8 @@ def main():
             topic = msg.topic
             payload = msg.payload.decode('utf-8')
             logger.debug('%s retain=%s qos=%s [%s] %s', sendTime, retain, qos, topic, payload)
-            rmap = {'time': '12:30', 'weather': '曇り', 'temp': '32'}
+            _, localtime = v.get_time()
+            rmap = {'time': localtime, 'weather': '曇り', 'temp': '32'}
             text = v.replace_text(v.read_text("./"+files[payload]+".txt"), rmap)
             wavfile = '/tmp/voice.wav'
             v.play_wave(v.create_wave(text,wavfile))

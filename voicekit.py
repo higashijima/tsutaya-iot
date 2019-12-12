@@ -67,21 +67,25 @@ class voice:
     return ''.join(text.splitlines())
 
   def get_time(self, country):
-    return datetime.datetime.now(pytz.timezone(country))
+    now = datetime.datetime.now(pytz.timezone(country))
+    text = "{0:d}時{1:d}分".format(now.hour, now.minute)
+    return now, text
+
 if __name__ == '__main__':
   v = voice()
   print(v.get_time('Asia/Tokyo'))
   print(v.get_time('US/Eastern'))
-  print(v.get_time('Asia/Koltaka'))
-  print(v.get_time('Asia/Tokyo'))
-  rmap = {'time': '12:30', 'weather': '曇り', 'temp': '32'}
+  print(v.get_time('Asia/Kolkata'))
+  print(v.get_time('America/Sao_Paulo'))
+  now, localtime = v.get_time('US/Eastern')
+  rmap = {'time': localtime, 'weather': '曇り', 'temp': '32'}
   text = v.read_text("./america.txt")
   text = v.replace_text(text, rmap)
 
   logger.info(text)
 
-  v.speak_text(text)
- # wavfile = '/tmp/voice.wav'
- # v.play_wave(v.create_wave(text, wavfile))
+ #   v.speak_text(text)
+  wavfile = '/tmp/voice.wav'
+  v.play_wave(v.create_wave(text, wavfile))
   
   
