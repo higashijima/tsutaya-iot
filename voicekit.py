@@ -5,6 +5,8 @@ from logging import getLogger, INFO, DEBUG
 logger = getLogger(__name__)
 logger.setLevel(INFO)
 import os
+import datetime
+import pytz
 
 class voice:
   def __init__(self, enc='utf-8', mechpath='/var/lib/mecab/dic/open-jtalk/naist-jdic', htspath='/usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice'):
@@ -64,8 +66,14 @@ class voice:
     buf.close()
     return ''.join(text.splitlines())
 
+  def get_time(self, country):
+    return datetime.datetime.now(pytz.timezone(country))
 if __name__ == '__main__':
   v = voice()
+  print(v.get_time('Asia/Tokyo'))
+  print(v.get_time('US/Eastern'))
+  print(v.get_time('Asia/Koltaka'))
+  print(v.get_time('Asia/Tokyo'))
   rmap = {'time': '12:30', 'weather': '曇り', 'temp': '32'}
   text = v.read_text("./america.txt")
   text = v.replace_text(text, rmap)
