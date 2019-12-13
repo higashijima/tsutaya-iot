@@ -44,14 +44,14 @@ def main():
             rmap = {'time': '12:30', 'weather': '曇り', 'temp': '32'}
             if DISP_MODE == 'flag':
                 u.disp_icon('./icons/'+files[payload]+'.png')
+
             if DISP_MODE == 'temp':
                 now = "{0:%H:%M}".format(datetime.datetime.now())
                 temp = '13C'
                 image, draw = u.init_disp()
-                
                 u.disp_text(draw, (0, -1), now, (255,255,0))
                 u.disp_text(draw, (0, 8), temp, (255,0,255))
-                u.draw_disp(image)
+
             if DISP_MODE == 'weather':
                 weather = 'cloudy'
                 u.disp_icon('./icons/weather/'+weather+'.png')
