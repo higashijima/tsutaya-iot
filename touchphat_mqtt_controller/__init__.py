@@ -8,6 +8,7 @@ import touchphat
 import os
 import time
 from threading import Lock
+import json
 
 # 別途ファイルで定義したMQTTクライアントをインポートする
 from .mqtt import client, start
@@ -53,19 +54,35 @@ def beep(key):
     time.sleep(0.9)
     touchphat.all_off()
 
+def getPressure(ev):
+    return 1022
+
+def getWeather(ev):
+    return 'cloudy'
+
+def getTempreture(ev):
+    return 13.54
 
 @touchphat.on_release(['Back','A', 'B', 'C', 'D','Enter'])
 def handle_touch(event):
     """
         TochPhatのボタン操作時のコールバック
     """
-    
     # Lockオブジェクトを使用して排他制御を行う
     with lock:
+        payload_json = {
+            'error': True,
+            'results': {
+                'event': event.name,
+                'weather': getWeather(event.name),
+                'tempture': getTempreture(event.name),
+                'pressure': getPressure(event.name),
+            }
+        }
         if event.name is not None:
             client.publish(
                     topic=TOPIC,
-                    payload=event.name
+                    payload=json.dumps(payload_json)
                 )
             blink(event.name)
 
