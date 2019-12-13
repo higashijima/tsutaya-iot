@@ -13,7 +13,7 @@ import time
 
 MQTT_HOST = os.environ.get('MQTT_HOST')
 MQTT_USER = os.environ.get('MQTT_USER')
-MQTT_PASS = os.environ.get('MQTT_PASS')
+MQTT_PASS = os.environ.get('MQTT_PASSWORD')
 MQTT_PORT = int(os.environ.get('MQTT_PORT'))
 MQTT_TOPIC = os.environ.get('MQTT_TOPIC')
 DISP_MODE = os.environ.get('DISP_MODE')
