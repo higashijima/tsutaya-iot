@@ -41,6 +41,10 @@ class unicorn:
   def disp_text(self, draw, pos, text, color):
     draw.text(pos, text, fill=color, font=self.font)
 
+  # clear display
+  def clear_disp(self):
+    hat.clear()
+
   # アイコン表示
   def disp_icon(self, iconpath):
     image = Image.open(iconpath)
