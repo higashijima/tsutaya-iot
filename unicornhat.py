@@ -8,7 +8,7 @@ DEFAULT_FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
 class unicorn:
   def __init__(self, font=DEFAULT_FONT, cycle=0.1):
     self.width, self.height = hat.get_shape()
-    self.font = ImageFont.truetype(font, 7)
+    self.font = ImageFont.truetype(font, 6)
     self.cycle = cycle
     hat.rotation(0)
 
@@ -38,8 +38,13 @@ class unicorn:
     self.draw_disp(image)
 
   # テキスト表示
-  def disp_text(self, draw, pos, text, color):
-    draw.text(pos, text, fill=color, font=self.font)
+  def disp_text(self, draw, pos, text, color, fontsize=-1):
+    if fontsize<0:
+      font = self.font
+    else:
+      font = ImageFont.truetype(DEFAULT_FONT, fontsize)
+
+    draw.text(pos, text, fill=color, font=font)
 
   # clear display
   def clear_disp(self):

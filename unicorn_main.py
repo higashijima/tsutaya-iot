@@ -51,11 +51,13 @@ def main():
                 u.disp_icon('./icons/'+files[event]+'.png')
 
             if DISP_MODE == 'temp':
-                now = "{0:%H:%M}".format(datetime.datetime.now())
+                now_hour = "{0:%H}".format(datetime.datetime.now())
+                now_min = "{0:%m}".format(datetime.datetime.now())
                 image, draw = u.init_disp()
                 u.clear_disp()
-                u.disp_text(draw, (0, -1), now, (255,255,0))
-                u.disp_text(draw, (0, 8), temperature, (255,0,255))
+                u.disp_text(draw, (2, -1), now_hour, (255,255,0), 7)
+                u.disp_text(draw, (6, 4), now_min, (255,127,0), 7)
+                u.disp_text(draw, (0, 9), temperature+'℃', (255,0,255), 7)
                 u.draw_disp(image)
 
             if DISP_MODE == 'weather':
