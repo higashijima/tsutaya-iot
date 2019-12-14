@@ -46,6 +46,7 @@ def main():
             weather = payload['results']['weather']
             temperature = payload['results']['temperature']
             rmap = {'time': '12:30', 'weather': '曇り', 'temperature': '32'}
+
             if DISP_MODE == 'flag':
                 u.disp_icon('./icons/'+files[event]+'.png')
 
@@ -54,11 +55,13 @@ def main():
                 image, draw = u.init_disp()
                 u.clear_disp()
                 u.disp_text(draw, (0, -1), now, (255,255,0))
-                u.disp_text(draw, (0, 8), '{0:.2f}'.format(temperature), (255,0,255))
+                u.disp_text(draw, (0, 8), temperature, (255,0,255))
                 u.draw_disp(image)
 
             if DISP_MODE == 'weather':
                 u.disp_icon('./icons/weather/'+weather+'.png')
+
+            time.sleep(30)
 
         except Exception as e:
             logger.exception(e)
