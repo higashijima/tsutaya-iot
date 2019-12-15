@@ -50,7 +50,7 @@ def filterNearstWeather(weathers, date):
     return weather
 
 def getWeatherInfo(ev):
-    cities = {'A': 'Washington', 'B': 'London', 'C': 'New Delhi', 'D': 'Brasilia', 'demo': 'Setagaya'}
+    cities = {'A': 'Washington', 'B': 'London', 'C': 'New Delhi', 'D': 'Brasilia', 'tsutaya': 'Setagaya'}
 
     payload = {
         'APIKEY': APIKEY,

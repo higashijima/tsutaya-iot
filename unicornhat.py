@@ -7,31 +7,31 @@ import os
 DEFAULT_FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
 # アイコンIDと画像との対応表
 ICON_TABLE = {
-    '01d': 'weather/clear-day.png',
-    '01n': 'weather/clear-night.png',
-    '02d': 'weather/partly-cloudy-day.png',
-    '02n': 'weather/partly-cloudy-night.png',
-    '03d': 'weather/cloudy.png',
-    '03n': 'weather/cloudy.png',
-    '04d': 'weather/cloudy.png',
-    '04n': 'weather/cloudy.png',
-    '09d': 'weather/rain.png',
-    '09n': 'weather/rain.png',
-    '10d': 'weather/rain.png',
-    '10n': 'weather/rain.png',
-    '11d': 'weather/rain.png',
-    '11n': 'weather/rain.png',
-    '13d': 'weather/snow.png',
-    '13n': 'weather/snow.png',
-    '50d': 'weather/fog.png',
-    '50n': 'weather/fog.png',
+    '01d': 'clear-day.png',
+    '01n': 'clear-night.png',
+    '02d': 'partly-cloudy-day.png',
+    '02n': 'partly-cloudy-night.png',
+    '03d': 'cloudy.png',
+    '03n': 'cloudy.png',
+    '04d': 'cloudy.png',
+    '04n': 'cloudy.png',
+    '09d': 'rain.png',
+    '09n': 'rain.png',
+    '10d': 'rain.png',
+    '10n': 'rain.png',
+    '11d': 'rain.png',
+    '11n': 'rain.png',
+    '13d': 'snow.png',
+    '13n': 'snow.png',
+    '50d': 'fog.png',
+    '50n': 'fog.png',
     'tsutaya': 'tsutaya.png',
     'A': 'america.png',
     'B': 'england.png',
     'C': 'india.png',
     'D': 'brasil.png',
-    'tsutaya': 'tsutaya.png',
-    'error': 'weather/error.png'
+    'demo': 'tsutaya.png',
+    'error': 'error.png'
 }
 
 class unicorn:
@@ -79,10 +79,10 @@ class unicorn:
     hat.clear()
 
   # アイコン表示
-  def disp_icon(self, icon, wait=0.1):
+  def disp_icon(self, icon, wait=0.1, frame=-1):
     iconpath = self.get_icon_path(icon)
     image = Image.open(iconpath)
-    for ox in range(int(image.size[0]/self.width)):
+    for ox in range(int(image.size[0]/self.width) if frame<0 else 1):
       for oy in range(int(image.size[1]/self.height)):
         valid = False
         for x in range(self.width):
@@ -98,10 +98,12 @@ class unicorn:
 
   def get_icon_path(self, id):
     current = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(current, 'icons', ICON_TABLE[id])
+    return os.path.join(current, 'unicorn_mqtt_display', 'display', 'weather-icons', 'icons', ICON_TABLE[id])
 
 if __name__=='__main__':
   u = unicorn()
+  u.disp_icon('03d', 0.1, 1)
+  time.sleep(1)
   u.disp_clock((0, 220, 220))
   time.sleep(0.5)
   u.disp_icon('tsutaya')
