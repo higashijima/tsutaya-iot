@@ -79,8 +79,8 @@ def loop(event, msg):
             icon = payload['results']['weather']
             temperature = payload['results']['temperature']
             wait = 3
-            zone = timezone[flag]
 
+        zone = timezone[flag]
         temp = "{0:.0f}".format(temperature)
     
         if DISP_MODE == 'flag':
