@@ -8,7 +8,9 @@ import touchphat
 import os
 import time
 from threading import Lock
+import requests
 import json
+import weather
 
 # 別途ファイルで定義したMQTTクライアントをインポートする
 from .mqtt import client, start
@@ -16,6 +18,7 @@ from .mqtt import client, start
 # 変更要求をパブリッシュするトピックを作成する
 TARGET_NAME = os.environ.get('MQTT_TARGET_NAME')
 TOPIC = 'cmnd/' + TARGET_NAME + '/display/change'
+
 
 # ロックオブジェクトの作成
 # https://docs.python.jp/3/library/threading.html#lock-objects
@@ -54,15 +57,6 @@ def beep(key):
     time.sleep(0.9)
     touchphat.all_off()
 
-def getPressure(ev):
-    return 1022
-
-def getWeather(ev):
-    return 'cloudy'
-
-def getTempreture(ev):
-    return 13.54
-
 @touchphat.on_release(['Back','A', 'B', 'C', 'D','Enter'])
 def handle_touch(event):
     """
@@ -70,24 +64,26 @@ def handle_touch(event):
     """
     # Lockオブジェクトを使用して排他制御を行う
     with lock:
-        payload_json = {
-            'error': True,
-            'results': {
-                'event': event.name,
-                'weather': getWeather(event.name),
-                'tempture': getTempreture(event.name),
-                'pressure': getPressure(event.name),
+        if event.name in ('A', 'B', 'C', 'D'):
+            icon, temp, press = weather.getWeatherInfo(event.name)
+            payload_json = {
+                'error': True,
+                'results': {
+                    'event': event.name,
+                    'weather': icon,
+                    'temperature': '{0:d}'.format(int(temp)),
+                    'pressure': '{0:}'.format(press),
+                }
             }
-        }
-        if event.name is not None:
-            client.publish(
-                    topic=TOPIC,
-                    payload=json.dumps(payload_json)
-                )
-            blink(event.name)
+            if event.name is not None:
+                client.publish(
+                        topic=TOPIC,
+                        payload=json.dumps(payload_json)
+                    )
+                blink(event.name)
 
-        else:
-            beep(event.name)
+            else:
+                beep(event.name)
 
 def main():
     """
