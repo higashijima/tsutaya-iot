@@ -60,7 +60,7 @@ def on_message(client, userdata, msg):
         msgjson = json.loads(msg.payload.decode('utf-8'))
 
         # ディスプレイに変更要求をする
-        r = dispmsg.change('weather', msg)
+        r = dispmsg.change('clock', msg)
 
         # 結果をパブリッシュする
         result = {
