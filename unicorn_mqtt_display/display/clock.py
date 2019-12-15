@@ -82,7 +82,7 @@ def loop(event, msg):
 
         zone = timezone[flag]
         temp = "{0:.0f}".format(temperature)
-        now = datetime.datetime.now(zone)
+        now = datetime.datetime.now(pytz.timezone(zone))
     
         if DISP_MODE == 'flag':
             u.disp_icon(flag, 0, 1)
