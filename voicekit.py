@@ -84,7 +84,6 @@ if __name__ == '__main__':
 
   logger.info(text)
 
- #   v.speak_text(text)
   wavfile = '/tmp/voice.wav'
   v.play_wave(v.create_wave(text, wavfile))
   
