@@ -1,12 +1,12 @@
 {
-  "name": "tsutaya-iot_voice",
-  "version": "0.1",
+  "name": "tsutaya-iot",
+  "version": "0.2",
   "description": "python - raspberry-pi",
-  "main": "voice.py",
+  "main": "start.sh",
   "author": "",
-  "language":"python3",
+  "language":"bash",
   "license": "",
   "scripts": {
-     "start": "python3 voice_main.py"
+     "start": "start.sh"
   }
 }
