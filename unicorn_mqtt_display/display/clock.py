@@ -43,7 +43,7 @@ def loop(event, msg):
         icon, temperature, _  = wi.getWeatherInfo('tsutaya')
         temp = "{0:.0f}".format(temperature)
         if DISP_MODE == 'flag':
-            u.disp_icon('tsutaya')
+            u.disp_icon('tsutaya', 0, 1)
 
         if DISP_MODE == 'temp':
             now_hour = "{0:%H}".format(datetime.datetime.now())
@@ -57,5 +57,7 @@ def loop(event, msg):
 
         if DISP_MODE == 'weather':
             u.disp_icon(icon)
+
+        unicornhathd.clear()
 
     logger.debug('clock loop end.')

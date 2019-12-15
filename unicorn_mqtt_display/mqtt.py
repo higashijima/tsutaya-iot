@@ -57,10 +57,10 @@ def on_message(client, userdata, msg):
     if msg.topic == 'cmnd/' + NAME + '/display/change':
 
         # メッセージはバイト型として渡されるので、デコードして文字型に変更する
-        message = msg.payload.decode('utf-8')
+        msgjson = json.loads(msg.payload.decode('utf-8'))
 
         # ディスプレイに変更要求をする
-        r = display.change(message, msg)
+        r = dispmsg.change('weather', msg)
 
         # 結果をパブリッシュする
         result = {
@@ -68,6 +68,7 @@ def on_message(client, userdata, msg):
             'mode': message
         }
         client.publish('result/' + NAME + '/display/change', json.dumps(result))
+        r = dispmsg.change('clock', None)
 
 
 def on_disconnect(client, userdata, rc):
