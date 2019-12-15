@@ -80,7 +80,9 @@ def loop(event, msg):
             temperature = payload['results']['temperature']
             wait = 3
 
+        logger.debug(flag)
         zone = timezone[flag]
+        logger.debug(zone)
         temp = "{0:.0f}".format(temperature)
     
         if DISP_MODE == 'flag':
