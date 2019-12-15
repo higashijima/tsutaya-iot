@@ -65,7 +65,7 @@ def change(mode, msg):
     #　Threadオブジェクトに動作関数を渡し、並列動作を開始させる（デーモンの作成）
     # ここでeventオブジェクトを渡して終了イベントを渡せるようにする
     # https://docs.python.jp/3/library/threading.html#thread-objects
-    driver = Thread(target=func, args=(event, msg))
+    driver = Thread(target=clock_loop, args=(event, msg))
     driver.daemon = True
     driver.start()
 
