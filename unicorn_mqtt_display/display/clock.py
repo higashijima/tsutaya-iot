@@ -80,17 +80,16 @@ def loop(event, msg):
             temperature = payload['results']['temperature']
             wait = 3
 
-        logger.debug(flag)
         zone = timezone[flag]
-        logger.debug(zone)
         temp = "{0:.0f}".format(temperature)
+        now = datetime.datetime.now(zone)
     
         if DISP_MODE == 'flag':
             u.disp_icon(flag, 0, 1)
 
         if DISP_MODE == 'temp':
-            now_hour = "{0:%H}".format(datetime.datetime.now(zone))
-            now_min = "{0:%m}".format(datetime.datetime.now(zone))
+            now_hour = "{0:%H}".format(now)
+            now_min = "{0:%m}".format(now)
             image, draw = u.init_disp()
             u.clear_disp()
             u.disp_text(draw, (2, -1), now_hour, (0,255,255), 7)
