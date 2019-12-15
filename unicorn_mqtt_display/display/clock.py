@@ -49,8 +49,8 @@ ICON_TABLE = {
     'error': 'error.png'
 }
 
-files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil'}
-timezone = {'A': 'US/Eastern', 'B': 'Europe/London', 'C': 'Asia/Kolkata', 'D': 'America/Sao_paulo'}
+files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil', 'tsutaya': 'tsutaya'}
+timezone = {'A': 'US/Eastern', 'B': 'Europe/London', 'C': 'Asia/Kolkata', 'D': 'America/Sao_paulo', 'tsutaya': 'Asia/Tokyo'}
 DISP_MODE = os.environ.get('DISP_MODE')
 width, height = unicornhathd.get_shape()
 u = unicorn()
@@ -70,22 +70,21 @@ def loop(event, msg):
     # eventがセットされるとループを終了する
     while not event.is_set():
         if msg == None:
-            icon, temperature, _  = wi.getWeatherInfo('tsutaya')
-            zone = 'Asia/Tokyo'
             wait = 0.1
+            flag = 'tsutaya'
+            icon, temperature, _  = wi.getWeatherInfo(flag)
         else:
             payload = json.loads(msg.payload.decode('utf-8'))
             flag = payload['results']['event']
             icon = payload['results']['weather']
             temperature = payload['results']['temperature']
-            zone = timezone[flag]
             wait = 3
 
+        zone = timezone[flag]
         temp = "{0:.0f}".format(temperature)
-            
-
+    
         if DISP_MODE == 'flag':
-            u.disp_icon(icon, 0, 1)
+            u.disp_icon(flag, 0, 1)
 
         if DISP_MODE == 'temp':
             now_hour = "{0:%H}".format(datetime.datetime.now(zone))
@@ -101,5 +100,6 @@ def loop(event, msg):
             u.disp_icon(icon)
 
         time.sleep(wait)
+        unicornhathd.clear()
 
     logger.debug('clock loop end.')
