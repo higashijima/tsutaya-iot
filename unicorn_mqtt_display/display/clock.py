@@ -22,8 +22,37 @@ import weatherinfo as wi
 
 COLOR = (200, 0, 0)
 
-width, height = unicornhathd.get_shape()
+ICON_TABLE = {
+    '01d': 'clear-day.png',
+    '01n': 'clear-night.png',
+    '02d': 'partly-cloudy-day.png',
+    '02n': 'partly-cloudy-night.png',
+    '03d': 'cloudy.png',
+    '03n': 'cloudy.png',
+    '04d': 'cloudy.png',
+    '04n': 'cloudy.png',
+    '09d': 'rain.png',
+    '09n': 'rain.png',
+    '10d': 'rain.png',
+    '10n': 'rain.png',
+    '11d': 'rain.png',
+    '11n': 'rain.png',
+    '13d': 'snow.png',
+    '13n': 'snow.png',
+    '50d': 'fog.png',
+    '50n': 'fog.png',
+    'A': 'america.png',
+    'D': 'brasil.png',
+    'B': 'england.png',
+    'C': 'india.png',
+    'tsutaya': 'tsutaya.png',
+    'error': 'error.png'
+}
+
+files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil'}
+timezone = {'A': 'US/Eastern', 'B': 'Europe/London', 'C': 'Asia/Kolkata', 'D': 'America/Sao_paulo'}
 DISP_MODE = os.environ.get('DISP_MODE')
+width, height = unicornhathd.get_shape()
 u = unicorn()
 
 
@@ -40,14 +69,27 @@ def loop(event, msg):
     # ループ条件をeventオブジェクトがイベントを受け取っていないことにしている
     # eventがセットされるとループを終了する
     while not event.is_set():
-        icon, temperature, _  = wi.getWeatherInfo('tsutaya')
+        if msg == None:
+            icon, temperature, _  = wi.getWeatherInfo('tsutaya')
+            zone = 'Asia/Tokyo'
+            wait = 0.1
+        else:
+            payload = json.loads(msg.payload.decode('utf-8'))
+            flag = payload['results']['event']
+            icon = payload['results']['weather']
+            temperature = payload['results']['temperature']
+            zone = timezone[flag]
+            wait = 3
+
         temp = "{0:.0f}".format(temperature)
+            
+
         if DISP_MODE == 'flag':
-            u.disp_icon('tsutaya', 0, 1)
+            u.disp_icon(icon, 0, 1)
 
         if DISP_MODE == 'temp':
-            now_hour = "{0:%H}".format(datetime.datetime.now())
-            now_min = "{0:%m}".format(datetime.datetime.now())
+            now_hour = "{0:%H}".format(datetime.datetime.now(zone))
+            now_min = "{0:%m}".format(datetime.datetime.now(zone))
             image, draw = u.init_disp()
             u.clear_disp()
             u.disp_text(draw, (2, -1), now_hour, (0,255,255), 7)
@@ -58,6 +100,6 @@ def loop(event, msg):
         if DISP_MODE == 'weather':
             u.disp_icon(icon)
 
-        unicornhathd.clear()
+        time.sleep(wait)
 
     logger.debug('clock loop end.')
