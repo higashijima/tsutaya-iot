@@ -1,0 +1,12 @@
+{
+  "name": "tsutaya-iot_voice",
+  "version": "0.1",
+  "description": "python - raspberry-pi",
+  "main": "voice.py",
+  "author": "",
+  "language":"python3",
+  "license": "",
+  "scripts": {
+     "start": "python3 voice_main.py"
+  }
+}
