@@ -18,6 +18,7 @@ from unicornhat import unicorn
 import os
 import unicornhathd
 import time
+import pytz
 import weatherinfo as wi
 
 COLOR = (200, 0, 0)
