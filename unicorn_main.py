@@ -4,6 +4,7 @@ import os
 logger = getLogger(__name__)
 logger.setLevel(INFO)
 logger.addHandler(StreamHandler(stream=sys.stdout))
+import pytz
 
 import paho.mqtt.client as mqtt
 from unicornhat import unicorn
@@ -21,7 +22,10 @@ MQTT_PORT = int(os.environ.get('MQTT_PORT'))
 MQTT_TOPIC = os.environ.get('MQTT_TOPIC')
 DISP_MODE = os.environ.get('DISP_MODE')
 
-files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil'}
+files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil', 'tsutaya': 'tsutaya'}
+timezone = {'A': 'US/Eastern', 'B': 'Europe/London', 'C': 'Asia/Kolkata', 'D': 'America/Sao_paulo', 'tsutaya': 'Asia/Tokyo'}
+u = unicorn()
+
 
 def change(mode):
     if mode not in ('demo', 'touch'):
@@ -49,44 +53,40 @@ def change(mode):
 
     return True
 
-def demo_loop():
-    try:
-        
-        event = 'demo'
-        icon, temperature, _ = w.getWeatherInfo(event)
-        if DISP_MODE == 'flag':
-            u.disp_icon('tsutaya')
-
-        if DISP_MODE == 'temp':
-            now_hour = "{0:%H}".format(datetime.datetime.now())
-            now_min = "{0:%m}".format(datetime.datetime.now())
-            image, draw = u.init_disp()
-            u.clear_disp()
-            u.disp_text(draw, (2, -1), now_hour, (0,255,255), 7)
-            u.disp_text(draw, (6, 4), now_min, (0,127,255), 7)
-            u.disp_text(draw, (0, 9), temperature+'℃', (0,255,255), 7)
-            u.draw_disp(image)
-
-        if DISP_MODE == 'weather':
-            u.disp_icon(icon)
-
-        time.sleep(5)
-        change('demo')
-
-    except Exception as e:
-        logger.exception(e)
 
 def start():
     logger.debug('display initial function')
-    change('demo')
+
+def disp_msg(event, temp, press, icon):
+    logger.debug('event(%s) temp(%s) press(%s) icon(%s)', event, temp, press, icon)
+    if DISP_MODE == 'flag':
+        u.disp_icon(event)
+
+    if DISP_MODE == 'temp':
+        logger.debug('%s', timezone[event])
+        now = datetime.datetime.now(pytz.timezone(timezone[event])) 
+        now_hour = "{0:02d}".format(now.hour)
+        now_min = "{0:02d}".format(now.minute)
+        image, draw = u.init_disp()
+        u.clear_disp()
+        u.disp_text(draw, (2, -1), now_hour, (255,255,0), 7)
+        u.disp_text(draw, (6, 4), now_min, (255,127,0), 7)
+        u.disp_text(draw, (0, 9), temp+'℃', (255,0,255), 7)
+        u.draw_disp(image)
+
+    if DISP_MODE == 'weather':
+        u.disp_icon(icon)
+    
 
 def main():
     # debug mode when environmet set DEBUG 
     if os.environ.get('DEBUG', None):
         logger.setLevel(DEBUG)
 
+
     topic = os.environ.get('MQTT_TOPIC', '#')
-    u = unicorn()
+    icon_tokyo, temp_tokyo, press_tokyo = w.getWeatherInfo('tsutaya')
+    disp_msg('tsutaya', '{0:d}'.format(int(temp_tokyo)), press_tokyo, icon_tokyo)
 
     def on_connect(client, userdata, flags, respons_code):
         logger.info('subscribe %s', topic)
@@ -104,26 +104,17 @@ def main():
             event = payload['results']['event']
             icon = payload['results']['weather']
             temperature = payload['results']['temperature']
-            if DISP_MODE == 'flag':
-                u.disp_icon(event)
+            pressure = payload['results']['pressure']
 
-            if DISP_MODE == 'temp':
-                now_hour = "{0:%H}".format(datetime.datetime.now())
-                now_min = "{0:%m}".format(datetime.datetime.now())
-                image, draw = u.init_disp()
-                u.clear_disp()
-                u.disp_text(draw, (2, -1), now_hour, (255,255,0), 7)
-                u.disp_text(draw, (6, 4), now_min, (255,127,0), 7)
-                u.disp_text(draw, (0, 9), temperature+'℃', (255,0,255), 7)
-                u.draw_disp(image)
-
-            if DISP_MODE == 'weather':
-                u.disp_icon(icon)
-
-            time.sleep(5)
-            change(DISP_MODE)
-
-            time.sleep(30)
+            logger.debug('disp touch')
+            disp_msg(event, temperature, pressure, icon)
+            time.sleep(3)
+            logger.debug('disp tokyo')
+            icon_tokyo, temp_tokyo, press_tokyo = w.getWeatherInfo('tsutaya')
+            temperature = '{0:d}'.format(int(temp_tokyo))
+            pressure = '{0:d}'.format(press_tokyo)
+            disp_msg('tsutaya', temperature, pressure, icon)
+            #disp_msg('tsutaya', '{0:d}'.format(int(temp_tokyo)), press_tokyo, icon_tokyo)
 
         except Exception as e:
             logger.exception(e)
