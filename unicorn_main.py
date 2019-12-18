@@ -121,7 +121,7 @@ def main():
 
             logger.debug('disp touch')
             disp_msg(event, temperature, pressure, icon)
-            time.sleep(3)
+            time.sleep(10)
             logger.debug('disp tokyo')
             icon_tokyo, temp_tokyo, press_tokyo = w.getWeatherInfo('tsutaya')
             temperature = '{0:d}'.format(int(temp_tokyo))
