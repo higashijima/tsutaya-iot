@@ -98,7 +98,20 @@ def main():
             sendTime = msg.timestamp
             qos = msg.qos
             topic = msg.topic
-            payload = json.loads(msg.payload.decode('utf-8'))
+            logger.debug(msg.payload)
+            if msg == None:
+                payload = {
+                'error': True,
+                'results': {
+                    'event': 'tsutaya',
+                    'weather': '',
+                    'temperature': '',
+                    'pressure': '',
+                }
+            }
+            else:
+                payload = json.loads(msg.payload.decode('utf-8'))
+        
             logger.debug('%s retain=%s qos=%s [%s] %s', sendTime, retain, qos, topic, payload)
             logger.debug(payload['results']['event'])
             event = payload['results']['event']
