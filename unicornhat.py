@@ -79,11 +79,12 @@ class unicorn:
     hat.clear()
 
   # アイコン表示
-  def disp_icon(self, icon, wait=0.1, frame=-1):
+  def disp_icon(self, icon, wait=0.1):
+    print(icon)
     iconpath = self.get_icon_path(icon)
     image = Image.open(iconpath)
-    for ox in range(int(image.size[0]/self.width) if frame>0 else frame):
-      for oy in range(int(image.size[1]/self.height) if frame>0 else frame):
+    for ox in range(int(image.size[0]/self.width)):
+      for oy in range(int(image.size[1]/self.height)):
         valid = False
         for x in range(self.width):
           for y in range(self.height):

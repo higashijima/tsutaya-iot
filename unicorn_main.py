@@ -26,6 +26,7 @@ files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil', 'tsutaya':
 timezone = {'A': 'US/Eastern', 'B': 'Europe/London', 'C': 'Asia/Kolkata', 'D': 'America/Sao_paulo', 'tsutaya': 'Asia/Tokyo'}
 u = unicorn()
 
+return_time = {'A': 43, 'B': 30, 'C': 52,'D': 38}
 
 def change(mode):
     if mode not in ('demo', 'touch'):
@@ -121,7 +122,7 @@ def main():
 
             logger.debug('disp touch')
             disp_msg(event, temperature, pressure, icon)
-            time.sleep(10)
+            time.sleep(return_time[event])
             logger.debug('disp tokyo')
             icon_tokyo, temp_tokyo, press_tokyo = w.getWeatherInfo('tsutaya')
             temperature = '{0:d}'.format(int(temp_tokyo))
