@@ -68,6 +68,7 @@ def main():
             logger.debug(text)
             wavfile = '/tmp/voice.wav'
             v.play_wave(v.create_wave(text,wavfile))
+            os.remove(wavfile)
 
         except Exception as e:
             logger.exception(e)
