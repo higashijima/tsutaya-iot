@@ -7,6 +7,6 @@
   "language":"python3",
   "license": "",
   "scripts": {
-     "start": "python3 touchphat_main.py"
+     "start": "python3 touch_main.py"
   }
 }
