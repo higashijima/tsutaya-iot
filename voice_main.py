@@ -68,10 +68,10 @@ def main():
             text = v.replace_text("${time}です。天気は${weather}、気温は${temp}度です", rmap)
             logger.debug(text)
             wavfile = '/tmp/voice.wav'
-            thread1 = Thread(target=v.create_wave, args=(text,wavfile))
+            thread1 = Thread(target=v.create_wave, args=(text,wavfile,))
             thread1.start()
             v.play_wave("./"+files[payload['results']['event']]+".wav")
-            v.play_wave(v.create_wave(text,wavfile))
+            v.play_wave(wavfile)
             os.remove(wavfile)
 
         except Exception as e:
