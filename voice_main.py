@@ -64,7 +64,7 @@ def main():
             temp = payload['results']['temperature']
             weather = WEATHER_TABLE[payload['results']['weather']]
             rmap = {'time': localtime, 'weather': weather, 'temp': temp}
-            text = v.replace_text("${time}です。天気は${weather}、気温は${temp}度です"), rmap)
+            text = v.replace_text("${time}です。天気は${weather}、気温は${temp}度です", rmap)
             logger.debug(text)
             wavfile = '/tmp/voice.wav'
             v.play_wave("./"+files[payload['results']['event']]+".wav")
