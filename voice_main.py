@@ -18,6 +18,7 @@ MQTT_TOPIC = os.environ.get('MQTT_TOPIC')
 
 files = {'A': 'america', 'B': 'england', 'C': 'india', 'D': 'brasil'}
 timezone = {'A': 'US/Eastern', 'B': 'Europe/London', 'C': 'Asia/Kolkata', 'D': 'America/Sao_paulo'}
+capitals = {'A': 'ワシントンDC', 'B': 'ロンドン', 'C': 'ニューデリー', 'D': 'ブラジリア'}
 WEATHER_TABLE = {
     '01d': '晴れ',
     '01n': '晴れ',
@@ -64,8 +65,9 @@ def main():
             _, localtime = v.get_time(timezone[payload['results']['event']])
             temp = payload['results']['temperature']
             weather = WEATHER_TABLE[payload['results']['weather']]
-            rmap = {'time': localtime, 'weather': weather, 'temp': temp}
-            text = v.replace_text("${time}です。天気は${weather}、気温は${temp}度です", rmap)
+            capital = capitals[payload['results']['event']]
+            rmap = {'capital': capital, 'time': localtime, 'weather': weather, 'temp': temp}
+            text = v.replace_text("${capital}の現在の時刻は${time}です。天気は${weather}、気温は${temp}度です", rmap)
             logger.debug(text)
             wavfile = '/tmp/voice.wav'
             thread1 = Thread(target=v.create_wave, args=(text,wavfile,))
