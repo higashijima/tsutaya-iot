@@ -1,0 +1,12 @@
+{
+  "name": "tsutaya-iot",
+  "version": "0.2",
+  "description": "python - raspberry-pi",
+  "main": "start.sh",
+  "author": "",
+  "language":"bash",
+  "license": "",
+  "scripts": {
+     "start": "bash ./start.sh"
+  }
+}
