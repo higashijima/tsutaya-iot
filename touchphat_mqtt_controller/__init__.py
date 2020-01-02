@@ -16,7 +16,7 @@ import weather
 from .mqtt import client, start
 
 # 変更要求をパブリッシュするトピックを作成する
-TARGET_NAME = os.environ.get('MQTT_TARGET_NAME')
+TARGET_NAME = os.environ.get('EXEC_MAIN')
 TOPIC = 'cmnd/' + TARGET_NAME + '/display/change'
 
 
