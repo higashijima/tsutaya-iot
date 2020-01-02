@@ -16,6 +16,7 @@ class voice:
 # テキストからwavファイルを作る
     
   def create_wave(self, text, path):
+    print("text:{}".format(text))
     if isinstance(text, bytes):
       text = text.decode('utf-8')
     text = text.encode('utf-8')
