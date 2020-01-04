@@ -9,7 +9,7 @@ import datetime
 import pytz
 
 class voice:
-  def __init__(self, enc='utf-8', mechpath='/var/lib/mecab/dic/open-jtalk/naist-jdic', htspath='/usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice'):
+  def __init__(self, enc='utf-8', mechpath='/var/lib/mecab/dic/open-jtalk/naist-jdic', htspath='/usr/share/hts-voice/mei/mei_happy.htsvoice'):
     self.mechpath = mechpath
     self.htspath = htspath
 
